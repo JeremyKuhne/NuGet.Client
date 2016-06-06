@@ -294,6 +294,9 @@ namespace NuGet.Protocol.Core.Types
 
             if (!string.IsNullOrEmpty(apiKey))
             {
+                // Receiving an HTTP 403 when providing an API key typically indicates an invalid API key.
+                request.GetConfiguration().PromptOn403 = false;
+
                 request.Headers.Add(ApiKeyHeader, apiKey);
             }
             return request;
@@ -360,10 +363,13 @@ namespace NuGet.Protocol.Core.Types
                 () =>
                 {
                     // Review: Do these values need to be encoded in any way?
-                    var url = String.Join("/", packageId, packageVersion);
+                    var url = string.Join("/", packageId, packageVersion);
                     var request = HttpRequestMessageFactory.Create(HttpMethod.Delete, GetServiceEndpointUrl(source, url), logger);
                     if (!string.IsNullOrEmpty(apiKey))
                     {
+                        // Receiving an HTTP 403 when providing an API key typically indicates an invalid API key.
+                        request.GetConfiguration().PromptOn403 = false;
+
                         request.Headers.Add(ApiKeyHeader, apiKey);
                     }
                     return request;

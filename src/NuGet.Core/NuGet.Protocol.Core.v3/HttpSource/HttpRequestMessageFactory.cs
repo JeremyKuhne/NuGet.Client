@@ -33,7 +33,11 @@ namespace NuGet.Protocol
             }
 
             var request = new HttpRequestMessage(method, requestUri);
-            request.SetLogger(log);
+            request.SetConfiguration(new HttpRequestMessageConfiguration
+            {
+                Logger = log
+            });
+
             return request;
         }
 
@@ -57,7 +61,11 @@ namespace NuGet.Protocol
             }
 
             var request = new HttpRequestMessage(method, requestUri);
-            request.SetLogger(log);
+            request.SetConfiguration(new HttpRequestMessageConfiguration
+            {
+                Logger = log
+            });
+
             return request;
         }
     }

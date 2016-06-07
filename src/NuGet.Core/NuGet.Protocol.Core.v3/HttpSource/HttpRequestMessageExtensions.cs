@@ -51,7 +51,13 @@ namespace NuGet.Protocol
 
             var foundInstance = request.GetProperty<HttpRequestMessageConfiguration>(NuGetConfigurationKey);
 
-            return foundInstance ?? new HttpRequestMessageConfiguration();
+            if (foundInstance == null)
+            {
+                foundInstance = new HttpRequestMessageConfiguration();
+                request.SetConfiguration(foundInstance);
+            }
+
+            return foundInstance;
         }
 
         /// <summary>
